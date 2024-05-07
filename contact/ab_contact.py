@@ -3,9 +3,8 @@ import abc
 
 class Contact(abc.ABC):
 
-    def __init__(self, emile: str, address: str) -> None:
-        self.emile = emile
-        self.address = address
+    def __init__(self, **kwargs) -> None:
+        pass
 
     @abc.abstractmethod
     def create_contact(self) -> dict:
@@ -16,8 +15,14 @@ class Contact(abc.ABC):
         ...
 
 
-class PersonContact(Contact):
+class PersonContactMixin:
     ...
+
+
+class PersonContact(Contact):
+
+    def __init__(self, **kwargs):
+        super().__init__()
 
     def create_contact(self) -> dict:
         ...
