@@ -4,7 +4,7 @@ class Addressbook:
     def __init__(self):
         self.__contacts = []
 
-    def __add__(self, other: dict[str, str]):
+    def __add__(self, other: dict[str, dict]):
         self.__contacts.append(other)
         return self
 
@@ -14,6 +14,4 @@ class Addressbook:
 
     def __getitem__(self, item: str): pass
 
-
     def __setitem__(self, key, value): pass
-

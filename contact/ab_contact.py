@@ -4,28 +4,29 @@
 """
 
 from datetime import datetime
+import hashlib
 
 
 class Contact:
 
-    def __init__(self, **kwargs) -> None:
-        self.id_contact = id_contact
-        self.first_name = kwargs['first_name']
-        self.last_name = kwargs['last_name']
+    def __init__(self, contact_info: dict[str, str]) -> None:
+        self.id_contact = GeneratorID.email_hash(contact_info['email'])
+        self.first_name = contact_info['first_name']
+        self.last_name = contact_info['last_name']
         self.full_name = self.last_name + ' ' + self.first_name
-        self.email = kwargs['email']
-        self.address = kwargs['address']
+        self.email = contact_info['email']
+        self.address = contact_info['address']
         self.created_at = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
 
-    def create_contact(self) -> dict:
-        new_contact: dict = {
-            'id_contact': self.id_contact,
-            'first_name': self.first_name,
-            'second_name': self.last_name,
-            'full_name': self.full_name,
-            'email': self.email,
-            'address': self.address,
-            'created_at': self.created_at,
+    def create_contact(self) -> dict[str, str]:
+        new_contact = {
+                'id_contact': self.id_contact,
+                'first_name': self.first_name,
+                'second_name': self.last_name,
+                'full_name': self.full_name,
+                'email': self.email,
+                'address': self.address,
+                'created_at': self.created_at
         }
         return new_contact
 
@@ -45,3 +46,13 @@ class Contact:
 
     def __repr__(self):
         return f' id:{self.id_contact}, created at: {self.created_at}\n'
+
+
+class GeneratorID:
+
+    @staticmethod
+    def email_hash(email: str) -> str:
+        email_bytes = email.encode('UTF-8')
+        hashed_email = hashlib.sha256(email_bytes).hexdigest()
+
+        return hashed_email
