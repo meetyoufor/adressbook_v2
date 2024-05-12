@@ -32,7 +32,7 @@ class UserInterface:
             if mod == 'w':
                 self.create_new_contact()
 
-    def create_new_contact(self):
+    def create_new_contact(self) -> Contact:
         new_contact: dict[str, str] = {}
 
         while True:
@@ -48,7 +48,10 @@ class UserInterface:
             break
 
         contact_instance = Contact(new_contact)
-        print(contact_instance)
+        return contact_instance
+
+    def add_new_contact(self, contact):
+
 
 
 if __name__ == '__main__':
