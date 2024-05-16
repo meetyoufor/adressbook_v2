@@ -1,4 +1,5 @@
 from contact.ab_contact import Contact
+from file_handler.ab_file_handler import JsonFileHandler
 
 
 class Addressbook:
@@ -7,18 +8,33 @@ class Addressbook:
     def __init__(self):
         self.__contacts = []
 
-    def __add__(self, other: dict[str, dict]):
+    def load_contacts(self, filename: str):
+        self.__contacts = JsonFileHandler.read_file(filename)
+
+    def get_contacts(self):
+        return self.__contacts
+
+    def __add__(self, other: dict, contacts: list):
         if not isinstance(other, dict):
             raise Exception('Нельзя добавить данный объект в addressbook')
+
         first_letter = other['full_name'][0]
-        self.__contacts.append({first_letter: other})
+        for item in contacts:
+            if first_letter in item.keys():
+                item[first_letter].append(contacts)
+                break
+        else:
+            new_letter = {first_letter: [other]}
+            contacts.append(new_letter)
+
         return self
 
     def __sub__(self, other: dict[str, dict]):
         self.__contacts.remove(other)
         return self
 
-    def __getitem__(self, item: str): pass
+    def __getitem__(self, item: str):
+        pass
 
-    def __setitem__(self, key, value): pass
-
+    def __setitem__(self, key, value):
+        pass

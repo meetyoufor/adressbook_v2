@@ -1,13 +1,15 @@
 [
   {
-    "И": {
-      "id": "3b138ccb-06e4-11ef-a251-00266a553b37",
-      "first_name": "Иван",
-      "last_name": "Иванов",
-      "full_name": "Иванов Иван",
-      "address": "г. Москва, ул. Ленина, д. 3, кв. 17",
-      "email": "ivanowivan@osas.ru",
-      "created_at": "30/04/2024 14:24:38"
-    }
+    "И": [
+      {
+        "id": "3b138ccb-06e4-11ef-a251-00266a553b37",
+        "first_name": "Иван",
+        "last_name": "Иванов",
+        "full_name": "Иванов Иван",
+        "address": "г. Москва, ул. Ленина, д. 3, кв. 17",
+        "email": "ivanowivan@osas.ru",
+        "created_at": "30/04/2024 14:24:38"
+      }
+    ]
   }
 ]

@@ -8,31 +8,30 @@ from contact.ab_contact import Contact
 
 class UserInterface:
 
-    def __init__(self):
+    def __init__(self, *, filename: str):
         self.addressbook = Addressbook()
+        self.filename = filename
 
-    def choose_file(self) -> str | None:
+    def main(self) -> None:
         while True:
-            file_path = input('Пожалуйста, ввидите путь к файлу:\n')
-            if os.path.isfile(file_path):
-                return file_path
+            if os.path.isfile(self.filename):
+                self.select_mode()
             else:
                 print('Неверный путь, повторите ввод')
 
     def select_mode(self) -> list | None:
-        file_path = self.choose_file()
         while True:
             mod = input('Выберите режим:\n'
                         'Посмотреть список контактов (r)\n'
                         'Внести новый контакт (w)\n')
             if mod == 'r':
-                result = JsonFileHandler.read_file(file_path)
+                result = JsonFileHandler.read_file(self.filename)
                 print(result)
-                return JsonFileHandler.read_file(file_path)
+                return JsonFileHandler.read_file(self.filename)
             if mod == 'w':
                 self.create_new_contact()
 
-    def create_new_contact(self) -> Contact:
+    def create_new_contact(self) -> None:
         new_contact: dict[str, str] = {}
 
         while True:
@@ -48,14 +47,15 @@ class UserInterface:
             break
 
         contact_instance = Contact(new_contact)
-        return contact_instance
+        self.add_new_contact(contact_instance)
 
-    def add_new_contact(self, contact):
-
+    def add_new_contact(self, contact) -> None:
+        Addressbook.load_contacts(self.addressbook, self.filename)
+        contacts = Addressbook.get_contacts(self.filename)
+        updated_contacts = contacts + contact
+        JsonFileHandler.write_file(self.filename, updated_contacts)
 
 
 if __name__ == '__main__':
-    start_go = UserInterface()
-    start_go.select_mode()
-
-# 'data_base/database.json'
+    start = UserInterface(filename='data_base/database.json')
+    start.main()
