@@ -1,15 +1,25 @@
 [
-  {
-    "И": [
-      {
-        "id": "3b138ccb-06e4-11ef-a251-00266a553b37",
-        "first_name": "Иван",
-        "last_name": "Иванов",
-        "full_name": "Иванов Иван",
-        "address": "г. Москва, ул. Ленина, д. 3, кв. 17",
-        "email": "ivanowivan@osas.ru",
-        "created_at": "30/04/2024 14:24:38"
-      }
-    ]
-  }
+    {
+        "current_id_counter": 3
+    },
+    {
+        "email": "Popov@osas.ru",
+        "id_contact": 1,
+        "first_name": "Алеша",
+        "last_name": "Попов",
+        "address": "Москва",
+        "created_at": "2024-06-16 15:57:59",
+        "full_name": "Попов Алеша",
+        "updated_at": "2024-06-16 15:57:59"
+    },
+    {
+        "email": "Popov@osas.ru",
+        "id_contact": 1,
+        "address": "Москва",
+        "created_at": "2024-06-17 00:03:48",
+        "first_name": "Алеша",
+        "last_name": "Попов",
+        "full_name": "Попов Алеша",
+        "updated_at": "2024-06-17 00:03:48"
+    }
 ]
