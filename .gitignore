@@ -1,3 +1,2 @@
-.idea/
-.venv/
-.addressbook/addressbook_config.py
+.idea
+addressbook/addressbook_config.py
