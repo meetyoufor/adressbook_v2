@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b9e5f9c-1153-4ba7-abcc-68953fac3c64" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/addressbook/ab_addressbook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitigore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adressbook/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/addressbook/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adressbook/ab_addressbook.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contact/ab_contact.py" beforeDir="false" afterPath="$PROJECT_DIR$/contact/ab_contact.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_base/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/database.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_handler/ab_file_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_handler/ab_file_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="8b9e5f9c-1153-4ba7-abcc-68953fac3c64" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
