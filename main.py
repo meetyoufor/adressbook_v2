@@ -51,9 +51,6 @@ class UserInterface:
         self.addressbook.load_contacts(self.filename)
         contacts = self.addressbook.get_contacts
 
-        !!!!!
-        !!!!!
-
         contacts.append(contact)
         self.addressbook.save_contacts(self.filename)
 
