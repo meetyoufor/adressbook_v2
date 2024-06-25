@@ -1,7 +1,7 @@
 import os
 
 from file_handler.ab_file_handler import JsonFileHandler
-from addressbook.ab_addressbook import Addressbook
+from addressbook.ab_addressbook import AddressBook
 from validator.ab_validator import Validator
 from contact.ab_contact import Contact
 
@@ -9,7 +9,7 @@ from contact.ab_contact import Contact
 class UserInterface:
 
     def __init__(self, filename: str):
-        self.addressbook = Addressbook()
+        self.addressbook = AddressBook()
         self.filename = filename
 
     def main(self) -> None:
@@ -22,18 +22,16 @@ class UserInterface:
 
     def select_mode(self) -> list | None:
         while True:
-            mod = input('Выберите режим:\n'
+            mode = input('Выберите режим:\n'
                         'Посмотреть список контактов (r)\n'
                         'Внести новый контакт (w)\n'
                         'Завершить программу (q)\n')
-            if mod == 'r':
-                result = JsonFileHandler.read_file(self.filename)
-                print(result)
-                return result
-            if mod == 'w':
-                self.create_new_contact()
-            if mod == 'q':
-                break
+            items = {
+                'r': JsonFileHandler.read_file,
+                'w': self.create_new_contact,
+                'q': False
+            }
+            return items[mode]()
 
     def create_new_contact(self) -> None:
         while True:
@@ -48,11 +46,7 @@ class UserInterface:
         print(new_contact)
 
     def add_new_contact(self, contact) -> None:
-        self.addressbook.load_contacts(self.filename)
-        contacts = self.addressbook.get_contacts
-
-        contacts.append(contact)
-        self.addressbook.save_contacts(self.filename)
+        pass
 
 
 if __name__ == '__main__':

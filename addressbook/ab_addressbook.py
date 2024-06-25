@@ -1,3 +1,5 @@
+import os
+from datetime import datetime
 from addressbook_config import record_limit
 from addressbook_config import data_base
 from contact.ab_contact import Contact
@@ -32,9 +34,9 @@ class AddressBook:
 
     @staticmethod
     def update_contact(
-            unique_id: int, filename=__ADDRESSBOOK_DB,
-            email=None, address=None,
-            first_name=None, last_name=None
+            unique_id: int,
+            filename=__ADDRESSBOOK_DB,
+            email=None, address=None, first_name=None, last_name=None
     ) -> None:
         contacts = AddressBook.get_contacts()
         contact = AddressBook.get_contact_by_id(unique_id)
@@ -62,6 +64,7 @@ class AddressBook:
             contact['full_name'] = last_name + ' ' + first_name
 
         contacts[contact_index] = contact
+        AddressBook.sort_by_alphabet(contacts)
         JsonFileHandler.write_file(filename=filename, data=contacts)
 
     @staticmethod
@@ -94,23 +97,85 @@ class AddressBook:
             contacts: list,
             contact: Contact
     ) -> None:
-        first_contact = contacts[1]['last_name']
+        first_contact = 0
         last_contact = len(contacts) - 1
-        pass!!!
 
-# con1 = {
-#     "id_contact": 1,
-#     "first_name": "Алеша",
-#     "last_name": "Попов",
-#     "email": "Popov@osas.ru",
-#     "address": "Москва"
-# }
-# new_contact = Contact(
-#     email=con1['email'],
-#     id_contact=con1['id_contact'],
-#     first_name=con1['first_name'],
-#     last_name=con1['last_name'],
-#     address=con1['address'],
-#     created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-# )
-# AddressBook.add_contact(new_contact)
+        while first_contact <= last_contact:
+            middle = (first_contact + last_contact) // 2
+
+            if len(contact.__dict__['last_name']) < len(contacts[middle]['last_name']):
+                last_contact = middle - 1
+            if len(contact.__dict__['last_name']) > len(contacts[middle]['last_name']):
+                last_contact = middle + 1
+            if contact.__dict__['last_name'] < contacts[middle]['last_name']:
+                last_contact = middle - 1
+            if contact.__dict__['last_name'] > contacts[middle]['last_name']:
+                last_contact = middle + 1
+
+            ...
+
+    @staticmethod
+    def get_addressbook_db(filename=__ADDRESSBOOK_DB):
+        return filename
+
+
+if __name__ == '__main__':
+    def main() -> None:
+        while True:
+            if os.path.isfile(AddressBook.get_addressbook_db()):
+                select_mode()
+                break
+            else:
+                print('Неверный путь, повторите ввод')
+
+
+    def select_mode() -> list | None:
+        items = {
+            'r': AddressBook.get_contacts,
+            'w': create_new_contact
+        }
+
+        while True:
+            mode = input('Выберите режим:\n'
+                         'Посмотреть список контактов (r)\n'
+                         'Внести новый контакт (w)\n'
+                         'Завершить программу (q)\n')
+
+            if mode == 'q':
+                break
+
+            return items[mode]()
+
+
+    def create_new_contact() -> None:
+        while True:
+            email = Validator.format_email(email=input('Введите электронную почту:\n'))
+            first_name = Validator.format_name(name=input('Введите имя:\n'))
+            last_name = Validator.format_name(name=input('Введите фамилию:\n'))
+            region = input('Укажите регион / край / область:\n')
+            city = input('Укажите город:\n')
+            street = input('Укажите название улицы:\n')
+            house_number = input('Укажите номер дома:\n')
+            apartment_number = input('Укажите номер квартиры:\n')
+            address = Validator.format_address(
+                region=region,
+                city=city,
+                street=street,
+                house_number=house_number,
+                apartment_number=apartment_number
+            )
+
+            new_contact = Contact(
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                address=address,
+                created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            )
+
+            add_new_contact(new_contact)
+            break
+
+
+    def add_new_contact(new_contact: Contact) -> None:
+        AddressBook.add_contact(new_contact)
