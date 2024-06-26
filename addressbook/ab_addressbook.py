@@ -119,63 +119,70 @@ class AddressBook:
         return filename
 
 
+def main() -> None:
+    if os.path.isfile(AddressBook.get_addressbook_db()):
+        select_mode()
+    else:
+        print('Неверный путь, повторите ввод')
+
+
+def select_mode() -> list | None:
+    items = {
+        'r': AddressBook.get_contacts,
+        'w': create_new_contact
+    }
+
+    while True:
+        mode = input(
+            'Выберите режим:\n'
+            'Посмотреть список контактов (r)\n'
+            'Внести новый контакт (w)\n'
+            'Завершить программу (q)\n'
+        )
+
+        if mode == 'q':
+            return
+
+        return items[mode]()
+
+
+def create_new_contact() -> None:
+    f_tools = {
+        'email': Validator.format_email,
+        'name': Validator.format_name,
+        'address': Validator.format_address
+    }
+
+    city = input('Укажите город:\n')
+    street = input('Укажите название улицы:\n')
+    house_number = input('Укажите номер дома:\n')
+    apartment_number = input('Укажите номер квартиры:\n')
+
+    email = f_tools['email'](input('Введите электронную почту:\n'))
+    first_name = f_tools['name'](input('Введите имя:\n'))
+    last_name = f_tools['name'](input('Введите фамилию:\n'))
+    address = f_tools['address'](
+        city=city,
+        street=street,
+        house_number=house_number,
+        apartment_number=apartment_number
+    )
+
+    new_contact = Contact(
+        email=email,
+        first_name=first_name,
+        last_name=last_name,
+        address=address,
+        created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+
+    add_new_contact(new_contact)
+    return
+
+
+def add_new_contact(new_contact: Contact) -> None:
+    AddressBook.add_contact(new_contact)
+
+
 if __name__ == '__main__':
-    def main() -> None:
-        while True:
-            if os.path.isfile(AddressBook.get_addressbook_db()):
-                select_mode()
-                break
-            else:
-                print('Неверный путь, повторите ввод')
-
-
-    def select_mode() -> list | None:
-        items = {
-            'r': AddressBook.get_contacts,
-            'w': create_new_contact
-        }
-
-        while True:
-            mode = input('Выберите режим:\n'
-                         'Посмотреть список контактов (r)\n'
-                         'Внести новый контакт (w)\n'
-                         'Завершить программу (q)\n')
-
-            if mode == 'q':
-                break
-
-            return items[mode]()
-
-
-    def create_new_contact() -> None:
-        while True:
-            email = Validator.format_email(email=input('Введите электронную почту:\n'))
-            first_name = Validator.format_name(name=input('Введите имя:\n'))
-            last_name = Validator.format_name(name=input('Введите фамилию:\n'))
-            region = input('Укажите регион / край / область:\n')
-            city = input('Укажите город:\n')
-            street = input('Укажите название улицы:\n')
-            house_number = input('Укажите номер дома:\n')
-            apartment_number = input('Укажите номер квартиры:\n')
-            address = Validator.format_address(
-                region=region,
-                city=city,
-                street=street,
-                house_number=house_number,
-                apartment_number=apartment_number
-            )
-
-            new_contact = Contact(
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                address=address,
-                created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            )
-
-            add_new_contact(new_contact)
-            break
-
-
-    def add_new_contact(new_contact: Contact) -> None:
-        AddressBook.add_contact(new_contact)
+    main()

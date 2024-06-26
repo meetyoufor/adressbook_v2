@@ -35,20 +35,19 @@ class Validator:
 
     @staticmethod
     def format_address(
-            *, city: str, street: str,
-            house_number: str, apartment_number: str,
-            region: str | None = None, chars_limit: int = 150
+            city: str,
+            street: str,
+            house_number: str,
+            apartment_number: str,
+            chars_limit: int = 150
     ) -> str:
 
         address_data = {
-            'region': region,
             'city': city,
             'street': street,
             'house_number': house_number,
             'apartment_number': apartment_number
         }
-        if not region:
-            del address_data['region']
 
         for value in address_data.values():
             if not isinstance(value, str):
@@ -56,16 +55,10 @@ class Validator:
         for value in address_data.values():
             if not re.match(r'^[А-ЯЁа-яё0-9\s-]+$', value):
                 raise ValueError('Строка должна содержать только кириллические символы.')
-
         for key, value in address_data.items():
             address_data[key] = value.capitalize()
-        formatted_address = ''
 
-        if region:
-            formatted_address = f'{region}, г. {city}, ул. {street}, д. {house_number}, кв. {apartment_number}'
-        if not region:
-            formatted_address = f'г. {city}, ул. {street}, д. {house_number}, кв. {apartment_number}'
-
+        formatted_address = f'г. {city}, ул. {street}, д. {house_number}, кв. {apartment_number}'
         if len(formatted_address) > chars_limit:
             raise ValueError(f'Превышено допустимое количество ({chars_limit}) символов.')
 
