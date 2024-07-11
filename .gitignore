@@ -1,4 +1,4 @@
 .idea
 .venv/
 logs/
-addressbook/addressbook_config.py
+.env

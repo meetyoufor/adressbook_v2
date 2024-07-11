@@ -2,13 +2,16 @@ import re
 
 
 class Validator:
+    __NAME_CHARS_LIMIT: int = 50
+    __EMAIL_CHARS_LIMIT: int = 25
+    __ADDRESS_CHARS_LIMIT: int = 150
 
     @staticmethod
-    def format_name(name: str, chars_limit: int = 50) -> str:
+    def format_name(name: str) -> str:
         if not isinstance(name, str):
             raise TypeError('Неверный тип данных')
-        if len(name) > chars_limit:
-            raise ValueError(f'Превышено допустимое количество ({chars_limit}) символов.')
+        if len(name) > Validator.__NAME_CHARS_LIMIT:
+            raise ValueError(f'Превышено допустимое количество ({Validator.__NAME_CHARS_LIMIT}) символов.')
         if not re.match(r'^[а-яА-ЯёЁ]+$', name):
             raise ValueError('Строка должна содержать только кириллические символы.')
 
@@ -19,11 +22,11 @@ class Validator:
         return name
 
     @staticmethod
-    def format_email(email: str, chars_limit: int = 25) -> str:
+    def format_email(email: str) -> str:
         if not isinstance(email, str):
             raise TypeError('Неверный тип данных')
-        if len(email) > chars_limit:
-            raise ValueError(f'Превышено допустимое количество ({chars_limit}) символов.')
+        if len(email) > Validator.__EMAIL_CHARS_LIMIT:
+            raise ValueError(f'Превышено допустимое количество ({Validator.__EMAIL_CHARS_LIMIT}) символов.')
         if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
             raise TypeError('Ошибка при введении данных')
 
@@ -34,32 +37,18 @@ class Validator:
         return email
 
     @staticmethod
-    def format_address(
-            city: str,
-            street: str,
-            house_number: str,
-            apartment_number: str,
-            chars_limit: int = 150
-    ) -> str:
-
-        address_data = {
-            'city': city,
-            'street': street,
-            'house_number': house_number,
-            'apartment_number': apartment_number
-        }
-
-        for value in address_data.values():
+    def format_address(**kwargs) -> str:
+        for value in kwargs.values():
             if not isinstance(value, str):
                 raise TypeError('Неверный тип данных')
-        for value in address_data.values():
+        for value in kwargs.values():
             if not re.match(r'^[А-ЯЁа-яё0-9\s-]+$', value):
                 raise ValueError('Строка должна содержать только кириллические символы.')
-        for key, value in address_data.items():
-            address_data[key] = value.capitalize()
+        for key, value in kwargs.items():
+            kwargs[key] = value.capitalize()
 
-        formatted_address = f'г. {city}, ул. {street}, д. {house_number}, кв. {apartment_number}'
-        if len(formatted_address) > chars_limit:
-            raise ValueError(f'Превышено допустимое количество ({chars_limit}) символов.')
+        formatted_address = f'г. {kwargs['city']}, ул. {kwargs['street']}, д. {kwargs['house_number']}, кв. {kwargs['apartment_number']}'
+        if len(formatted_address) > Validator.__ADDRESS_CHARS_LIMIT:
+            raise ValueError(f'Превышено допустимое количество ({Validator.__ADDRESS_CHARS_LIMIT}) символов.')
 
         return formatted_address
